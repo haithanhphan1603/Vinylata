@@ -24,4 +24,10 @@ public class BaseExceptionHandler {
     public final ResponseEntity<?> handleException(CartItemNotExistException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
+
+    @ResponseBody
+    @ExceptionHandler(value = VoucherNotFoundException.class)
+    public final ResponseEntity<?> handleException(VoucherNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
 }

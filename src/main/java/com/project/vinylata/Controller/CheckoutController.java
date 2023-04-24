@@ -3,14 +3,15 @@ package com.project.vinylata.Controller;
 import com.project.vinylata.DTO.CartDto;
 import com.project.vinylata.DTO.OrderDto;
 import com.project.vinylata.DTO.OrderItemDto;
-import com.project.vinylata.Model.Cart;
-import com.project.vinylata.Model.Order;
-import com.project.vinylata.Model.OrderItem;
-import com.project.vinylata.Model.User;
+import com.project.vinylata.DTO.VoucherDto;
+import com.project.vinylata.Model.*;
 import com.project.vinylata.Repository.*;
 import com.project.vinylata.Response.ResponseHandler;
 import com.project.vinylata.Service.CartService;
 import com.project.vinylata.Service.ProductService;
+import com.project.vinylata.Service.VoucherService;
+import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,9 @@ public class CheckoutController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private VoucherService voucherService;
+
     @GetMapping("/checkout")
     public ResponseEntity<Object> checkOutPage(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -54,7 +58,12 @@ public class CheckoutController {
             cartRepository.save(cart);
         }
         CartDto cartDto = cartService.listCartItems(cart);
-        return ResponseHandler.responseBuilder("oke", HttpStatus.OK, cartDto);
+        if (cart.getVoucher() == null){
+            return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, cartDto);
+        }
+        cartDto.setVoucherId(cart.getVoucher().getId());
+        cartDto.setTotalMoney(cartDto.getTotalMoney() - cartDto.getTotalMoney() * voucherService.getDiscountById(cart.getVoucher().getId()));
+        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, cartDto);
     }
 
     @PostMapping("/confirm")
@@ -74,7 +83,7 @@ public class CheckoutController {
         for (OrderItemDto each: orderItemDto) {
             OrderItem orderItem = new OrderItem();
             orderItem.setId(each.getId());
-            orderItem.setProduct(productRepository.findById(each.getProductId()).get());
+            orderItem.setProduct(productRepository.findById(each.getProductId()));
             orderItem.setAmount(each.getAmount());
             orderItem.setTotalPaymentEachOrderItem(each.getTotalPaymentEachOrderItem());
             orderItem.setOrder(order);
@@ -88,10 +97,16 @@ public class CheckoutController {
         order.setUser(user.get());
         order.setAddress(orderDto.getAddress());
         order.setCreatedDate(new Date());
-        order.setTotalPayment(totalCost);
+        order.setTotalPayment(totalCost - totalCost*(voucherService.getDiscountById(orderDto.getVoucherId())));
         orderRepository.save(order);
 
         //and remove everything from cart
+        Cart cart = cartRepository.findCartByUser(user.get());
+        cart.setVoucher(null);
+        cartRepository.save(cart);
+
+        //minus 1 out of quantity
+        voucherService.decreaseQuantity(orderDto.getVoucherId());
 
 
         return ResponseHandler.responseBuilder("oke", HttpStatus.OK, "order has been confirmed to process!");

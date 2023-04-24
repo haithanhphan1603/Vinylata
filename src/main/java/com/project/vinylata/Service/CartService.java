@@ -46,6 +46,8 @@ public class CartService implements ICartService{
         }
         cartDto.setCartItemDtos(cartItemDtos);
         cartDto.setTotalMoney(totalCost);
+        //maybe discard
+        //cartDto.setVoucherId(cart.getVoucher().getId());
         return cartDto;
     }
 }

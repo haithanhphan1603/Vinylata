@@ -3,19 +3,13 @@ package com.project.vinylata.Controller;
 import com.project.vinylata.DTO.AddToCartDto;
 import com.project.vinylata.DTO.CartDto;
 import com.project.vinylata.Exception.CartItemNotExistException;
-import com.project.vinylata.Model.Cart;
-import com.project.vinylata.Model.CartItem;
-import com.project.vinylata.Model.Product;
-import com.project.vinylata.Model.User;
+import com.project.vinylata.Model.*;
 import com.project.vinylata.Repository.CartItemRepository;
 import com.project.vinylata.Repository.CartRepository;
 import com.project.vinylata.Repository.ProductRepository;
 import com.project.vinylata.Repository.UserRepository;
 import com.project.vinylata.Response.ResponseHandler;
-import com.project.vinylata.Service.CartItemService;
-import com.project.vinylata.Service.CartService;
-import com.project.vinylata.Service.ProductService;
-import com.project.vinylata.Service.UserService;
+import com.project.vinylata.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +43,9 @@ public class CartController {
     @Autowired
     private CartItemService cartItemService;
 
+    @Autowired
+    private VoucherService voucherService;
+
     @GetMapping("/")
     public ResponseEntity<Object> cartPage() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -60,8 +57,30 @@ public class CartController {
             cartRepository.save(cart);
         }
         CartDto cartDto = cartService.listCartItems(cart);
+        if (cart.getVoucher() == null){
+            return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, cartDto);
+        }
+        cartDto.setVoucherId(cart.getVoucher().getId());
+        cartDto.setTotalMoney(cartDto.getTotalMoney() - cartDto.getTotalMoney() * voucherService.getDiscountById(cart.getVoucher().getId()));
         //oke done
         return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, cartDto);
+    }
+
+    @PostMapping("/voucher/select/{id}")
+    public ResponseEntity<Object> selectVoucher(@PathVariable long id){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> user = userRepository.findByEmail(username);
+        Cart cart = cartRepository.findCartByUser(user.get());
+        if(cart==null) {
+            cart = new Cart();
+            cart.setUser(userRepository.getUsersByEmail(username));
+            cartRepository.save(cart);
+        }
+        Voucher voucher = voucherService.findVoucherById(id);
+        cart.setVoucher(voucher);
+        cartRepository.save(cart);
+
+        return ResponseHandler.responseBuilder("oke", HttpStatus.OK, "voucher has been selected");
     }
 
     @GetMapping("/addToCart")

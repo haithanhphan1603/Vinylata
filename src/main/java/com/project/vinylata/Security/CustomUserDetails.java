@@ -20,11 +20,6 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(User user) {
         userName = user.getEmail();
         password = user.getPassword();
-//        authorities = Arrays.stream(user.getRoles()
-//                        .split(","))
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
-
         authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());

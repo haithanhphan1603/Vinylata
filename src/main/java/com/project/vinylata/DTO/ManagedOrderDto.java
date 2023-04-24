@@ -11,10 +11,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartDto {
-    private List<CartItemDto> cartItemDtos;
-    private double totalMoney;
+public class ManagedOrderDto {
+    private long id;
 
-    private long voucherId;
+    private List<OrderItemDto> itemDtoList;
 
+    private double totalPayment;
+
+    private String orderStatus;
+
+    private String address;
 }
