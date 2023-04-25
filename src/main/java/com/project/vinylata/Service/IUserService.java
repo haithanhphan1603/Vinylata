@@ -7,7 +7,7 @@ import com.project.vinylata.Model.UserRecord;
 import java.util.List;
 
 public interface IUserService {
-    User add(UserDto userDto);
+    void add(UserDto userDto);
 
     List<UserRecord> getAllUsers();
     void delete(String email);

@@ -25,6 +25,19 @@ public class VoucherService {
         return voucher.get();
     }
 
+    public void saveUpdate(VoucherDto voucherDto){
+        Optional<Voucher> voucherOptional = voucherRepository.findById(voucherDto.getId());
+        if (voucherOptional.isEmpty()){
+            throw new VoucherNotFoundException("this voucher not found");
+        }
+        Voucher voucher = voucherOptional.get();
+        voucher.setCode(voucherDto.getCode());
+        voucher.setQuantity(voucherDto.getQuantity());
+        voucher.setDiscount(voucherDto.getDiscount());
+        voucher.setExpiratedDate(voucherDto.getExpiratedDate());
+        voucherRepository.save(voucher);
+    }
+
     public List<VoucherDto> getAllVoucherForUser(){
         //list all voucher has not been expired yet.
         List<Voucher> voucherList = voucherRepository.findAll();
@@ -82,7 +95,11 @@ public class VoucherService {
     }
 
     public void add(VoucherDto voucherDto){
-        Voucher voucher = new Voucher(voucherDto.getId(), voucherDto.getCode(), voucherDto.getQuantity(), voucherDto.getDiscount(), voucherDto.getExpiratedDate(), null);
+        Voucher voucher = new Voucher();
+        voucher.setCode(voucherDto.getCode());
+        voucher.setQuantity(voucherDto.getQuantity());
+        voucher.setDiscount(voucherDto.getDiscount());
+        voucher.setExpiratedDate(voucherDto.getExpiratedDate());
         voucherRepository.save(voucher);
     }
 

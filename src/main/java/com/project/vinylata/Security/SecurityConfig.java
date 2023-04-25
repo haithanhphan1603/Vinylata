@@ -24,9 +24,12 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 public class SecurityConfig {
     private static final String[] UN_SECURED_URLs = {"/login", "/register"};
 
-    private static final String[] USER_SECURED_URLs = {"/api/cart/**", "/logout", "/order/**"};
+    private static final String[] USER_SECURED_URLs = {"/api/cart/**", "/logout",
+            "/api/order/user/**", "/api/voucher/user/**"};
 
-    private static final String[] ADMIN_SECURED_URLs = {"/api/users/**", "/logout", "/api/product/**"};
+    private static final String[] ADMIN_SECURED_URLs = {"/api/users/**",
+            "/logout", "/api/product/**", "/api/order/admin/**",
+            "/api/voucher/admin/**"};
 
     @Autowired
     private JWTAuthenticationFilter authenticationFilter;

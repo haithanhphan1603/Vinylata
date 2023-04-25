@@ -29,8 +29,8 @@ public class UserController {
         if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
             return ResponseHandler.errorResponseBuilder("failure", HttpStatus.BAD_REQUEST, "User Already Exists Exception");
         }
-
-        return ResponseHandler.responseBuilder("success", HttpStatus.CREATED,this.userService.add(userDto));
+        userService.add(userDto);
+        return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, "added new user successfully");
     }
 
     @GetMapping("/{email}")

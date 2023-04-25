@@ -27,7 +27,7 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/api/order/unconfirmed")
+    @GetMapping("/api/order/admin/unconfirmed")
     public ResponseEntity<Object> getUnconfirmedOrder(){
 
         List<ManagedOrderDto> list =orderSevice.getUnconfirmedOrder();
@@ -35,13 +35,13 @@ public class OrderController {
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, list);
     }
 
-    @GetMapping("/api/order/confirmed")
+    @GetMapping("/api/order/admin/confirmed")
     public ResponseEntity<Object> getConfirmedOrder(){
         List<ManagedOrderDto> list =orderSevice.getConfirmedOrder();
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, list);
     }
 
-    @GetMapping("/api/order/myorder")
+    @GetMapping("/api/order/user/myorder")
     public ResponseEntity<Object> getMyOrder(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> user = userRepository.findByEmail(username);
@@ -50,6 +50,12 @@ public class OrderController {
         }
         List<ManagedOrderDto> list =orderSevice.getMyOrder(user.get());
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, list);
+    }
+
+    @PostMapping("/api/order/admin/accept/{id}")
+    public ResponseEntity<Object> acceptOrder(@PathVariable long id){
+        orderSevice.acceptOrder(id);
+        return ResponseHandler.responseBuilder("success", HttpStatus.OK, "order has been confirmed");
     }
 
 

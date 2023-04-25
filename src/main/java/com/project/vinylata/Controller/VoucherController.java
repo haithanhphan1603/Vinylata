@@ -19,41 +19,47 @@ public class VoucherController {
     private VoucherService voucherService;
     @Autowired
     private VoucherRepository voucherRepository;
-    @GetMapping("/voucher/user/all")
+    @GetMapping("/api/voucher/user/all")
     public ResponseEntity<Object> getAllVoucher(){
         //list all voucher has not been expired yet.
         List<VoucherDto> voucherDtoList = voucherService.getAllVoucherForUser();
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, voucherDtoList);
     }
 
-    @GetMapping("/voucher/admin/all")
+    @GetMapping("/api/voucher/admin/all")
     public ResponseEntity<Object> getAllVoucherForAdmin(){
         //list all voucher has not been expired yet.
         List<VoucherDto> voucherDtoList = voucherService.getAllVoucherForAdmin();
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, voucherDtoList);
     }
 
-    @GetMapping("/voucher/admin/expired")
+    @GetMapping("/api/voucher/admin/expired")
     public ResponseEntity<Object> getAllExpiredVoucherForAdmin(){
         List<VoucherDto> voucherDtoList = voucherService.getAllExpiredVoucherForAdmin();
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, voucherDtoList);
     }
 
-    @GetMapping("/voucher/admin/valid")
+    @GetMapping("/api/voucher/admin/valid")
     public ResponseEntity<Object> getAllValidVoucherForAdmin(){
         List<VoucherDto> voucherDtoList = voucherService.getAllValidVoucherForAdmin();
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, voucherDtoList);
     }
 
-    @PostMapping("/voucher/admin/add")
-    public ResponseEntity<Object> addNewVoucher(VoucherDto voucherDto){
+    @PostMapping("/api/voucher/admin/add")
+    public ResponseEntity<Object> addNewVoucher(@RequestBody VoucherDto voucherDto){
         voucherService.add(voucherDto);
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, "a new voucher has been added successfully!");
     }
 
-    @DeleteMapping("/voucher/admin/delete/{id}")
+    @DeleteMapping("/api/voucher/admin/delete/{id}")
     public ResponseEntity<Object> deleteVoucherById(@PathVariable long id){
         voucherService.deleteById(id);
         return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, "voucher " + id + "has been removed successfully!");
+    }
+
+    @PutMapping("/api/voucher/admin/update/{id}")
+    public ResponseEntity<Object> updateVoucher(@RequestBody VoucherDto voucherDto){
+        voucherService.saveUpdate(voucherDto);
+        return ResponseHandler.responseBuilder("success", HttpStatus.OK, "the voucher has been updated successfully!");
     }
 }

@@ -1,5 +1,6 @@
 package com.project.vinylata.Model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Cart {
     private User user;
 
     @ManyToOne
+    @Nullable
     private Voucher voucher;
 
 }

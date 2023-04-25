@@ -36,6 +36,19 @@ public class OrderSevice {
         return filter(orders);
     }
 
+    public void acceptOrder(long id){
+        Optional<Order> order = orderRepository.findById(id);
+        if (order.isEmpty()){
+            //handle exception
+        }
+        Order findedOrder = order.get();
+        if (order.get().getOrderStatus().equals("waiting for confirmation....")){
+            //handle exception
+        }
+        findedOrder.setOrderStatus("confirmed");
+        orderRepository.save(findedOrder);
+    }
+
     public void cancelOrderById(long id){
         Optional<Order> order = orderRepository.findById(id);
         if (order.isEmpty()){

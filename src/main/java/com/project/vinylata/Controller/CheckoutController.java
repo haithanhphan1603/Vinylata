@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/order")
+@RequestMapping("/api/order/user")
 @RestController
 public class CheckoutController {
     @Autowired
