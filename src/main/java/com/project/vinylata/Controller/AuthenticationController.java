@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,14 +35,19 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/api")
+    public ResponseEntity<Object> Test(){
+        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED,"ahihi");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Object> getTokenForAuthenticatedUser(@RequestBody JWTAuthenticationRequest authenticationRequest){
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(), authenticationRequest.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         if (authentication.isAuthenticated()){
-            return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED,this.jwtService.generateToken(authenticationRequest.getUserName()));
+            return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED,this.jwtService.generateToken(authenticationRequest.getEmail()));
         }else {
-            throw new UserNotFoundException("Invalid user credentials");
+            return ResponseHandler.errorResponseBuilder("failure", HttpStatus.BAD_REQUEST, "Invalid user credentials");
         }
     }
 
@@ -55,7 +61,9 @@ public class AuthenticationController {
             return ResponseHandler.errorResponseBuilder("failure", HttpStatus.BAD_REQUEST, "User Already Exists Exception");
         }
 
-        return ResponseHandler.responseBuilder("success", HttpStatus.CREATED,this.userService.add(userDto));
+        userService.add(userDto);
+
+        return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, "register successfully");
     }
 
 }

@@ -27,7 +27,7 @@ public class UserService implements IUserService{
     private final RoleRepository roleRepository;
 
     @Override
-    public User add(UserDto userDto) {
+    public void add(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -36,7 +36,7 @@ public class UserService implements IUserService{
         user.setPassword((passwordEncoder.encode(userDto.getPassword())));
         Role role = roleRepository.findByName("ROLE_USER");
         user.setRoles(Arrays.asList(role));
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Override
