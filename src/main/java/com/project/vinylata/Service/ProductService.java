@@ -83,7 +83,6 @@ public class ProductService {
         oldProduct.setProductPricing(newProduct.getProductPricing());
         oldProduct.setProductDescription(newProduct.getProductDescription());
         oldProduct.setProductDetail(newProduct.getProductDetail());
-        oldProduct.setProductSlug(newProduct.getProductSlug());
 
         Product updatedProduct = productRepository.save(oldProduct);
         ProductDto dtoUpdate = toDto(updatedProduct);
@@ -106,7 +105,6 @@ public class ProductService {
         product.setProductPricing(productDto.getProductPricing());
         product.setProductDescription(productDto.getProductDescription());
         product.setProductDetail(productDto.getProductDetail());
-        product.setProductSlug(slg.slugify(productDto.getProductSlug()));
 
         return product;
     }
@@ -122,7 +120,6 @@ public class ProductService {
         productDto.setProductPricing(product.getProductPricing());
         productDto.setProductDescription(product.getProductDescription());
         productDto.setProductDetail(product.getProductDetail());
-        productDto.setProductSlug(slg.slugify(product.getProductSlug()));
 
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(product.getCategory().getId());

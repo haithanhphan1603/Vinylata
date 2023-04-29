@@ -25,11 +25,11 @@ public class SecurityConfig {
     private static final String[] UN_SECURED_URLs = {"/login", "/register", "/api/products/", "/api/products/{productId}", "/api/categories/", "/api/categories/{categoryId}", "/api/vendors/", "/api/vendors/{vendorId}"};
 
     private static final String[] USER_SECURED_URLs = {"/api/cart/**", "/logout",
-            "/api/order/user/**", "/api/voucher/user/**"};
+            "/api/order/user/**", "/api/voucher/user/**", };
 
     private static final String[] ADMIN_SECURED_URLs = {"/api/users/**",
             "/logout", "/api/products/**", "/api/order/admin/**",
-            "/api/voucher/admin/**"};
+            "/api/voucher/admin/**", "/api/categories/**", "/api/categories/**/{categoryId}", "/api/vendors/**", "/api/vendors/**/{vendorId}"};
 
     @Autowired
     private JWTAuthenticationFilter authenticationFilter;

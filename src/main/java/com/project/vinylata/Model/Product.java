@@ -31,8 +31,6 @@ public class Product {
     @NotNull
     @Column(length = 512)
     private String productDetail;
-    @NotNull
-    private String productSlug;
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
     @ManyToOne(fetch = FetchType.LAZY)
