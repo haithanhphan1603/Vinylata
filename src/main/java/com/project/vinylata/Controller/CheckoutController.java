@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/api/order/user")
+@CrossOrigin(origins = "http://localhost:9000")
 @RestController
 public class CheckoutController {
     @Autowired

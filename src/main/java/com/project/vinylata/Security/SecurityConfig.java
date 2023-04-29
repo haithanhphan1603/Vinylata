@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private static final String[] UN_SECURED_URLs = {"/login", "/register", "/api/products/", "/api/products/{productId}"};
+    private static final String[] UN_SECURED_URLs = {"/login", "/register", "/api/products/", "/api/products/{productId}", "/api/categories/"};
 
     private static final String[] USER_SECURED_URLs = {"/api/cart/**", "/logout",
             "/api/order/user/**", "/api/voucher/user/**"};
