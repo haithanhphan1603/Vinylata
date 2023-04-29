@@ -41,6 +41,7 @@ public class CategoryService {
         Category oldCategory = this.categoryRepository.findById(id);
         oldCategory.setCategoryName(newCategory.getCategoryName());
         oldCategory.setCategoryImage(newCategory.getCategoryImage());
+        oldCategory.setCategoryBackground(newCategory.getCategoryBackground());
         oldCategory.setCategoryDescription(newCategory.getCategoryDescription());
         Category updatedCategory = this.categoryRepository.save(oldCategory);
         return this.modelMapper.map(updatedCategory, CategoryDto.class);

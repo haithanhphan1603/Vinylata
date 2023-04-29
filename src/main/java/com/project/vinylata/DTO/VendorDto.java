@@ -12,4 +12,5 @@ import lombok.Setter;
 public class VendorDto {
     private Long id;
     private String vendorName;
+    private String vendorImage;
 }

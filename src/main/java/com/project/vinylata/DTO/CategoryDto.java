@@ -11,5 +11,6 @@ public class CategoryDto {
     private Long id;
     private String categoryName;
     private String categoryImage;
+    private String categoryBackground;
     private String categoryDescription;
 }

@@ -14,8 +14,18 @@ public class BaseExceptionHandler {
 //        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
 //    }
     @ResponseBody
+    @ExceptionHandler(value = ProductAlreadyExistsException.class)
+    public final ResponseEntity<?> handleException(ProductAlreadyExistsException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+    @ResponseBody
     @ExceptionHandler(value = ProductNotExistException.class)
     public final ResponseEntity<?> handleException(ProductNotExistException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+    @ResponseBody
+    @ExceptionHandler(value = ProductNotFoundException.class)
+    public final ResponseEntity<?> handleExeption(ProductNotFoundException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
@@ -30,4 +40,5 @@ public class BaseExceptionHandler {
     public final ResponseEntity<?> handleException(VoucherNotFoundException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
+
 }

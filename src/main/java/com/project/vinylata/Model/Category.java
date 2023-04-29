@@ -24,6 +24,8 @@ public class Category {
     @NotNull
     private String categoryImage;
     @NotNull
+    private String categoryBackground;
+    @NotNull
     private String categoryDescription;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

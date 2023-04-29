@@ -40,6 +40,7 @@ public class VendorService {
     public VendorDto update(VendorDto newVendor, Long id) {
         Vendor oldVendor = this.vendorRepository.findById(id);
         oldVendor.setVendorName(newVendor.getVendorName());
+        oldVendor.setVendorImage(newVendor.getVendorImage());
         Vendor updatedVendor = this.vendorRepository.save(oldVendor);
         return this.modelMapper.map(updatedVendor, VendorDto.class);
     }

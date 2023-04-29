@@ -20,6 +20,7 @@ public class Vendor {
     @Column(name = "id", nullable = false)
     private Long id;
     private String vendorName;
+    private String vendorImage;
     @OneToMany(mappedBy = "vendor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Product> product;
 }
