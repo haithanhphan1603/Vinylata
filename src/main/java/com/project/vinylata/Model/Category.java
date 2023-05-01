@@ -1,12 +1,10 @@
 package com.project.vinylata.Model;
 
-import com.project.vinylata.Repository.ProductRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
 import java.util.Set;
 
 @Entity

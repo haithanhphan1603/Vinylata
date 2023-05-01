@@ -46,16 +46,20 @@ public class ProductController {
                                        @RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR, required = false) String sortDir) {
         return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, productService.show(pageNumber, pageSize, sortBy, sortDir));
     }
+//    @GetMapping("/")
+//    public ResponseEntity<Object> showByCateId(@RequestParam(value = "cateId") Long categoryId) {
+//        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, productService.show());
+//    }
 
     @GetMapping("/{productId}")
     public ResponseEntity<Object> showById(@PathVariable Long productId) {
         return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, productService.showById(productId));
     }
 
-    @PutMapping("/update/{productId}")
-    public ResponseEntity<Object> update(@PathVariable Long productId, @RequestBody ProductDto newProduct) {
+    @PutMapping("/update/{productId}/")
+    public ResponseEntity<Object> update(@PathVariable Long productId, @RequestBody ProductDto newProduct, @RequestParam(value = "cateId") Long categoryId, @RequestParam(value = "vendorId") Long vendorId) {
 
-        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, productService.update(productId, newProduct));
+        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, productService.update(productId, newProduct, categoryId, vendorId));
 
     }
 

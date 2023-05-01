@@ -1,9 +1,6 @@
 package com.project.vinylata.Service;
 
-import com.project.vinylata.DTO.CategoryDto;
-import com.project.vinylata.DTO.ProductDto;
-import com.project.vinylata.DTO.ProductResponse;
-import com.project.vinylata.DTO.VendorDto;
+import com.project.vinylata.DTO.*;
 import com.project.vinylata.Model.Category;
 import com.project.vinylata.Model.Product;
 import com.project.vinylata.Model.Vendor;
@@ -64,6 +61,7 @@ public class ProductService {
         return response;
     }
 
+
     //READ 1 PRODUCT
     public ProductDto showById(Long id) {
         Product productById = productRepository.findById(id);
@@ -72,7 +70,9 @@ public class ProductService {
     }
 
     //UPDATE PRODUCT
-    public ProductDto update(Long id, ProductDto newProduct) {
+    public ProductDto update(Long id, ProductDto newProduct, Long categoryId, Long vendorId) {
+        Category category = this.categoryRepository.findById(categoryId);
+        Vendor vendor = this.vendorRepository.findById(vendorId);
         Product oldProduct = productRepository.findById(id);
         oldProduct.setProductTitle(newProduct.getProductTitle());
         oldProduct.setProductAttributes(newProduct.getProductAttributes());
@@ -81,6 +81,8 @@ public class ProductService {
         oldProduct.setProductPricing(newProduct.getProductPricing());
         oldProduct.setProductDescription(newProduct.getProductDescription());
         oldProduct.setProductDetail(newProduct.getProductDetail());
+        oldProduct.setCategory(category);
+        oldProduct.setVendor(vendor);
 
         Product updatedProduct = productRepository.save(oldProduct);
         ProductDto dtoUpdate = toDto(updatedProduct);
@@ -108,6 +110,25 @@ public class ProductService {
     }
 
     //Entity to DTO
+    public ProductDto toDto2(Product product){
+        ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
+        productDto.setProductTitle(product.getProductTitle());
+        productDto.setProductImage(product.getProductImage());
+        productDto.setProductPricing(product.getProductPricing());
+
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryName(product.getCategory().getCategoryName());
+
+        VendorDto vendorDto = new VendorDto();
+        vendorDto.setVendorName(product.getVendor().getVendorName());
+
+        productDto.setCategory(categoryDto);
+        productDto.setVendor(vendorDto);
+
+        return productDto;
+    }
+
     public ProductDto toDto(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
@@ -136,4 +157,5 @@ public class ProductService {
 
         return productDto;
     }
+
 }

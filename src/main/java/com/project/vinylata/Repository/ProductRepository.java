@@ -1,6 +1,5 @@
 package com.project.vinylata.Repository;
 
-
 import com.project.vinylata.Model.Product;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
@@ -10,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+    List<Product> findByCategoryId(Long category_id);
     Product findById(Long productId);
 
     @Override
@@ -20,11 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Override
     <S extends Product> List<S> saveAllAndFlush(Iterable<S> entities);
-
-    @Override
-    default void deleteInBatch(Iterable<Product> entities) {
-        JpaRepository.super.deleteInBatch(entities);
-    }
 
     @Override
     void deleteAllInBatch(Iterable<Product> entities);

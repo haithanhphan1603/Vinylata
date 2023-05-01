@@ -1,9 +1,12 @@
 package com.project.vinylata.Service;
 
-import com.github.slugify.Slugify;
 import com.project.vinylata.DTO.CategoryDto;
+import com.project.vinylata.DTO.ProductByCateDto;
+import com.project.vinylata.DTO.SpecificCategoryDto;
 import com.project.vinylata.Model.Category;
+import com.project.vinylata.Model.Product;
 import com.project.vinylata.Repository.CategoryRepository;
+import com.project.vinylata.Repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ import java.util.stream.Collectors;
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -32,6 +37,16 @@ public class CategoryService {
         return dtoAll;
     }
 
+    public SpecificCategoryDto getCategoryWithProducts(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId);
+
+        List<Product> getList = productRepository.findByCategoryId(categoryId);
+        List<ProductByCateDto> dtoAll = getList.stream()
+                .map(entity -> this.modelMapper.map(entity, ProductByCateDto.class))
+                .collect(Collectors.toList());
+
+        return new SpecificCategoryDto(category.getId(),category.getCategoryName(), category.getCategoryImage(), category.getCategoryImage(), category.getCategoryDescription(), dtoAll);
+    }
     public CategoryDto showById(Long id) {
         Category categoryById = this.categoryRepository.findById(id);
         return this.modelMapper.map(categoryById, CategoryDto.class);
