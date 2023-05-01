@@ -18,8 +18,6 @@ public class ProductDto {
     private Double productPricing;
     private String productDescription;
     private String productDetail;
-//    private Long categoryId;
-//    private Long vendorId;
     private CategoryDto category;
     private VendorDto vendor;
 }

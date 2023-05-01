@@ -1,6 +1,5 @@
 package com.project.vinylata.Service;
 
-import com.github.slugify.Slugify;
 import com.project.vinylata.DTO.CategoryDto;
 import com.project.vinylata.DTO.ProductDto;
 import com.project.vinylata.DTO.ProductResponse;
@@ -24,7 +23,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
-    final Slugify slg = Slugify.builder().build();
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -124,12 +122,14 @@ public class ProductService {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(product.getCategory().getId());
         categoryDto.setCategoryName(product.getCategory().getCategoryName());
-        categoryDto.setCategoryImage(product.getProductImage());
+        categoryDto.setCategoryImage(product.getCategory().getCategoryImage());
+        categoryDto.setCategoryBackground(product.getCategory().getCategoryBackground());
         categoryDto.setCategoryDescription(product.getCategory().getCategoryDescription());
 
         VendorDto vendorDto = new VendorDto();
         vendorDto.setId(product.getVendor().getId());
         vendorDto.setVendorName(product.getVendor().getVendorName());
+        vendorDto.setVendorImage(product.getVendor().getVendorImage());
 
         productDto.setCategory(categoryDto);
         productDto.setVendor(vendorDto);
