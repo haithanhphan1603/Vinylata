@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SimpleCategoryDto {
+    private Long id;
     private String categoryName;
     private String categoryImage;
 }
