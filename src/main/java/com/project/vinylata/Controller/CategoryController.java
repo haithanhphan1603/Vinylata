@@ -19,7 +19,7 @@ public class CategoryController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/add")
+    @PostMapping("/admin/add")
     public ResponseEntity<Object> create(@RequestBody CategoryDto category){
         return ResponseHandler.responseBuilder(SUCCESS_MESSAGE, HttpStatus.CREATED,this.categoryService.create(category));
     }
@@ -31,15 +31,15 @@ public class CategoryController {
 
     @GetMapping("/{categoryId}")
     public ResponseEntity<Object> showById(@PathVariable Long categoryId) {
-        return ResponseHandler.responseBuilder(SUCCESS_MESSAGE, HttpStatus.ACCEPTED, this.categoryService.getCategoryWithProducts(categoryId));
+        return ResponseHandler.responseBuilder(SUCCESS_MESSAGE, HttpStatus.ACCEPTED, this.categoryService.showById(categoryId));
     }
 
-    @PutMapping("/update/{categoryId}")
+    @PutMapping("/admin/update/{categoryId}")
     public ResponseEntity<Object> update(@RequestBody CategoryDto newCategory, @PathVariable Long categoryId){
         return ResponseHandler.responseBuilder(SUCCESS_MESSAGE, HttpStatus.ACCEPTED, this.categoryService.update(newCategory, categoryId));
     }
 
-    @DeleteMapping("/del/{categoryId}")
+    @DeleteMapping("/admin/del/{categoryId}")
     public ResponseEntity<Object> delete(@PathVariable Long categoryId){
         this.categoryService.delete(categoryId);
         return ResponseHandler.responseBuilder(SUCCESS_MESSAGE, HttpStatus.ACCEPTED, null);

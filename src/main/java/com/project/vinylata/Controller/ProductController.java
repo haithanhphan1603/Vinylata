@@ -1,6 +1,5 @@
 package com.project.vinylata.Controller;
 
-
 import com.project.vinylata.DTO.AppConstants;
 import com.project.vinylata.DTO.ProductDto;
 import com.project.vinylata.Exception.ProductAlreadyExistsException;
@@ -25,7 +24,7 @@ public class ProductController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @PostMapping("/add/")
+    @PostMapping("/admin/add/")
     @ResponseBody
     public ResponseEntity<Object> create(@RequestBody ProductDto product,
                                          @RequestParam(value = "cateId") Long categoryId,
@@ -37,6 +36,11 @@ public class ProductController {
         } else {
             return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, productService.create(product, categoryId, vendorId));
         }
+    }
+
+    @GetMapping("/main-shop")
+    public ResponseEntity<Object> showMainShop(){
+        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, productService.demoProduct());
     }
 
     @GetMapping("/")
@@ -56,14 +60,14 @@ public class ProductController {
         return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, productService.showById(productId));
     }
 
-    @PutMapping("/update/{productId}/")
+    @PutMapping("/admin/update/{productId}/")
     public ResponseEntity<Object> update(@PathVariable Long productId, @RequestBody ProductDto newProduct, @RequestParam(value = "cateId") Long categoryId, @RequestParam(value = "vendorId") Long vendorId) {
 
         return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, productService.update(productId, newProduct, categoryId, vendorId));
 
     }
 
-    @DeleteMapping("/del/{productId}")
+    @DeleteMapping("/admin/del/{productId}")
     public ResponseEntity<Object> delete(@PathVariable int productId) {
         productService.delete(productId);
         return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, null);

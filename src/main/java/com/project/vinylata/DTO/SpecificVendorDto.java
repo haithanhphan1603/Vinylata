@@ -9,11 +9,9 @@ import java.util.List;
 @lombok.Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SpecificCategoryDto {
+public class SpecificVendorDto {
     private Long id;
-    private String categoryName;
-    private String categoryImage;
-    private String categoryBackground;
-    private String categoryDescription;
+    private String vendorName;
+    private String vendorImage;
     private List<ProductByDto> products;
 }

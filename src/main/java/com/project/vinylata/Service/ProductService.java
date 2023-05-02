@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +42,16 @@ public class ProductService {
         //Entity to Dto
         ProductDto dto = toDto(saveProduct);
         return dto;
+    }
+
+    //SHOW 8 PRODUCTS
+    public ShopInfoDto demoProduct(){
+        List<Product> getProductList = productRepository.findAll();
+        List<Category> getCategoryList = categoryRepository.findAll();
+        Random random = new Random();
+        List<ProductByDto> productsList = getProductList.stream().skip(random.nextInt(getProductList.size())).limit(8).map(entity -> this.modelMapper.map(entity, ProductByDto.class)).collect(Collectors.toList());
+        List<SimpleCategoryDto> categoryList = getCategoryList.stream().map(category -> this.modelMapper.map(category, SimpleCategoryDto.class)).collect(Collectors.toList());
+        return new ShopInfoDto(categoryList, productsList);
     }
 
     //READ PRODUCT

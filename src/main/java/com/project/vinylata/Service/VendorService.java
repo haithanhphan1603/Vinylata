@@ -1,8 +1,9 @@
 package com.project.vinylata.Service;
 
-import com.project.vinylata.DTO.CategoryDto;
-import com.project.vinylata.DTO.VendorDto;
+import com.project.vinylata.DTO.*;
+import com.project.vinylata.Model.Product;
 import com.project.vinylata.Model.Vendor;
+import com.project.vinylata.Repository.ProductRepository;
 import com.project.vinylata.Repository.VendorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 public class VendorService {
     @Autowired
     private VendorRepository vendorRepository;
+    @Autowired
+    private ProductRepository productRepository;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -32,9 +35,15 @@ public class VendorService {
         return dtoAll;
     }
 
-    public VendorDto showById(Long id) {
-        Vendor vendorId = this.vendorRepository.findById(id);
-        return this.modelMapper.map(vendorId, VendorDto.class);
+    public SpecificVendorDto showById(Long vendorId) {
+        Vendor vendor = vendorRepository.findById(vendorId);
+
+        List<Product> getList = productRepository.findByVendorId(vendorId);
+        List<ProductByDto> dtoAll = getList.stream()
+                .map(entity -> this.modelMapper.map(entity, ProductByDto.class))
+                .collect(Collectors.toList());
+
+        return new SpecificVendorDto(vendor.getId(), vendor.getVendorName(), vendor.getVendorImage(), dtoAll);
     }
 
     public VendorDto update(VendorDto newVendor, Long id) {

@@ -1,7 +1,7 @@
 package com.project.vinylata.Service;
 
 import com.project.vinylata.DTO.CategoryDto;
-import com.project.vinylata.DTO.ProductByCateDto;
+import com.project.vinylata.DTO.ProductByDto;
 import com.project.vinylata.DTO.SpecificCategoryDto;
 import com.project.vinylata.Model.Category;
 import com.project.vinylata.Model.Product;
@@ -37,19 +37,15 @@ public class CategoryService {
         return dtoAll;
     }
 
-    public SpecificCategoryDto getCategoryWithProducts(Long categoryId) {
+    public SpecificCategoryDto showById(Long categoryId) {
         Category category = categoryRepository.findById(categoryId);
 
         List<Product> getList = productRepository.findByCategoryId(categoryId);
-        List<ProductByCateDto> dtoAll = getList.stream()
-                .map(entity -> this.modelMapper.map(entity, ProductByCateDto.class))
+        List<ProductByDto> dtoAll = getList.stream()
+                .map(entity -> this.modelMapper.map(entity, ProductByDto.class))
                 .collect(Collectors.toList());
 
         return new SpecificCategoryDto(category.getId(),category.getCategoryName(), category.getCategoryImage(), category.getCategoryImage(), category.getCategoryDescription(), dtoAll);
-    }
-    public CategoryDto showById(Long id) {
-        Category categoryById = this.categoryRepository.findById(id);
-        return this.modelMapper.map(categoryById, CategoryDto.class);
     }
 
     public CategoryDto update(CategoryDto newCategory, Long id) {
