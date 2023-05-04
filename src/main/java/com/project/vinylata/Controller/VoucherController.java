@@ -1,6 +1,8 @@
 package com.project.vinylata.Controller;
 
 import com.project.vinylata.DTO.VoucherDto;
+import com.project.vinylata.Model.Cart;
+import com.project.vinylata.Model.User;
 import com.project.vinylata.Model.Voucher;
 import com.project.vinylata.Repository.VoucherRepository;
 import com.project.vinylata.Response.ResponseHandler;
@@ -8,9 +10,11 @@ import com.project.vinylata.Service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:9000")
@@ -26,6 +30,7 @@ public class VoucherController {
         List<VoucherDto> voucherDtoList = voucherService.getAllVoucherForUser();
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, voucherDtoList);
     }
+
 
     @GetMapping("/api/voucher/admin/all")
     public ResponseEntity<Object> getAllVoucherForAdmin(){
@@ -59,8 +64,8 @@ public class VoucherController {
     }
 
     @PutMapping("/api/voucher/admin/update/{id}")
-    public ResponseEntity<Object> updateVoucher(@RequestBody VoucherDto voucherDto){
-        voucherService.saveUpdate(voucherDto);
+    public ResponseEntity<Object> updateVoucher(@RequestBody VoucherDto voucherDto, @PathVariable long id){
+        voucherService.saveUpdate(voucherDto, id);
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, "the voucher has been updated successfully!");
     }
 }

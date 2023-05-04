@@ -16,19 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto {
-    private long id;
+
+    private Long id;
 
     private List<OrderItemDto> itemDtoList;
 
-    private String address;
+    private OrderUserDto orderUserDto;
 
-    private long voucherId;
-//    private long totalPayment;
+    private double totalPrice;
 
-    // private Date createdDate;
-
-//    @JsonIgnore
-//    private User user;
-
-//    private String orderStatus;
+    private String orderStatus;
 }

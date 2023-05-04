@@ -20,12 +20,15 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Product product;
+    private String name;
 
-    private int amount;
+    private String image;
 
-    private double totalPaymentEachOrderItem;
+    private double price;
+
+    private String artist;
+
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "order_id")

@@ -1,6 +1,5 @@
 package com.project.vinylata.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +25,13 @@ public class Order {
 
     private String address;
 
-    private double totalPayment;
+    private String orderUserName;
+
+    private String orderUserEmail;
+
+    private String orderUserPhone;
+
+    private double totalPrice;
 
     @Column(name = "created_date")
     private Date createdDate;

@@ -1,6 +1,7 @@
 package com.project.vinylata.Controller;
 
 import com.project.vinylata.DTO.UserDto;
+import com.project.vinylata.Exception.UserNotFoundException;
 import com.project.vinylata.Repository.UserRepository;
 import com.project.vinylata.Response.ResponseHandler;
 import com.project.vinylata.Service.UserService;
@@ -27,9 +28,6 @@ public class UserController {
     }
     @PostMapping("/add")
     public ResponseEntity<Object> add(@RequestBody UserDto userDto){
-        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
-            return ResponseHandler.errorResponseBuilder("failure", HttpStatus.BAD_REQUEST, "User Already Exists Exception");
-        }
         userService.add(userDto);
         return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, "added new user successfully");
     }
@@ -37,21 +35,22 @@ public class UserController {
     @GetMapping("/{email}")
     public ResponseEntity<Object> getByEmail(@PathVariable("email") String email){
         if (userRepository.findByEmail(email).isEmpty()){
-            return ResponseHandler.errorResponseBuilder("failure", HttpStatus.NOT_FOUND, "User Not Found Exception");
+            throw new UserNotFoundException("user not found");
         }
-        return ResponseHandler.responseBuilder("success", HttpStatus.FOUND,this.userRepository.findByEmail(email));
+        UserDto userDto = userService.getUserByEmail(email);
+        return ResponseHandler.responseBuilder("success", HttpStatus.FOUND, userDto);
     }
 
     @DeleteMapping("/{email}")
     public ResponseEntity<Object> delete(@PathVariable("email") String email){
-        if (userRepository.findByEmail(email).isEmpty()){
-            return ResponseHandler.errorResponseBuilder("failure", HttpStatus.NOT_FOUND, "User Not Found Exception");
-        }
-
         userService.delete(email);
         return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, "User has been deleted");
     }
 
-
+    @PutMapping("/{email}")
+    public ResponseEntity<Object> update(@PathVariable("email") String email, @RequestBody UserDto userDto){
+        userService.update(email , userDto);
+        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, "User has been deleted");
+    }
 
 }

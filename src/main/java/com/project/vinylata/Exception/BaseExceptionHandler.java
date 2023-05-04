@@ -41,4 +41,22 @@ public class BaseExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
+    @ResponseBody
+    @ExceptionHandler(value = UserNotFoundException.class)
+    public final ResponseEntity<?> handleException(UserNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = UserAlreadyExistsException.class)
+    public final ResponseEntity<?> handleException(UserAlreadyExistsException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = JWTNotValidateException.class)
+    public final ResponseEntity<?> handleException(JWTNotValidateException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
 }

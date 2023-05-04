@@ -1,6 +1,8 @@
 package com.project.vinylata.Security.jwt;
 
+import com.project.vinylata.Exception.JWTNotValidateException;
 import com.project.vinylata.Security.CustomUserDetailsService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
