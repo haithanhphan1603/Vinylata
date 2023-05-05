@@ -33,7 +33,7 @@ public class OrderSevice {
     }
 
     public List<OrderDto> getUnconfirmedOrder(){
-        List<Order> orders = orderRepository.findByOrderStatus("waiting for confirmation");
+        List<Order> orders = orderRepository.findByOrderStatus("waiting for confirmation!");
         return filter(orders);
     }
 
@@ -48,7 +48,7 @@ public class OrderSevice {
             //handle exception
         }
         Order findedOrder = order.get();
-        if (order.get().getOrderStatus().equals("waiting for confirmation")){
+        if (order.get().getOrderStatus().equals("waiting for confirmation!")){
             //handle exception
         }
         findedOrder.setOrderStatus("confirmed");
@@ -81,7 +81,7 @@ public class OrderSevice {
             //handle exception
         }
         Order findedOrder = order.get();
-        if (order.get().getOrderStatus().equals("waiting for confirmation....")){
+        if (order.get().getOrderStatus().equals("waiting for confirmation!")){
             //handle exception
         }
         findedOrder.setOrderStatus("canceled");
@@ -113,7 +113,7 @@ public class OrderSevice {
         if (order == null){
             //handle exception
         }
-        if (order.getOrderStatus().equals("waiting for confirmation....")){
+        if (order.getOrderStatus().equals("waiting for confirmation!")){
             //handle exception
         }
         order.setOrderStatus("canceled");
