@@ -92,7 +92,7 @@ public class CheckoutController {
 
         order.setTotalPrice(orderDto.getTotalPrice());
         order.setCreatedDate(new Date());
-        order.setOrderStatus("waiting for confirmation!");
+        order.setOrderStatus("waiting for confirmation");
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> user = userRepository.findByEmail(username);
         if (user.isEmpty()){
