@@ -55,7 +55,7 @@ public class AuthenticationController {
             return ResponseHandler.responseBuilder("failure", HttpStatus.BAD_REQUEST, userDto);
         }
         userService.add(userDto);
-        return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, "register successfully");
+        return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, this.jwtService.generateToken(userDto.getEmail()));
     }
 
 }

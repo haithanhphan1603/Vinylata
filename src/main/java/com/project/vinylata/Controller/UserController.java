@@ -50,7 +50,7 @@ public class UserController {
     @PutMapping("/{email}")
     public ResponseEntity<Object> update(@PathVariable("email") String email, @RequestBody UserDto userDto){
         userService.update(email , userDto);
-        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, "User has been deleted");
+        return ResponseHandler.responseBuilder("success", HttpStatus.ACCEPTED, "User has been updated");
     }
 
 }
