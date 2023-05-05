@@ -39,7 +39,7 @@ public class UserService implements IUserService{
         user.setLastName(userDto.getLastName());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setEmail(userDto.getEmail());
-        user.setAddress(user.getAddress());
+        user.setAddress(userDto.getAddress());
         user.setPassword((passwordEncoder.encode(userDto.getPassword())));
         Role role = roleRepository.findByName("ROLE_USER");
         user.setRoles(Arrays.asList(role));
