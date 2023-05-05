@@ -4,11 +4,13 @@ import com.project.vinylata.DTO.OrderDto;
 import com.project.vinylata.DTO.OrderItemDto;
 import com.project.vinylata.DTO.OrderUserDto;
 import com.project.vinylata.DTO.UserDto;
+import com.project.vinylata.Exception.EmailMessageException;
 import com.project.vinylata.Model.*;
 import com.project.vinylata.Repository.*;
 import com.project.vinylata.Response.ResponseHandler;
-import com.project.vinylata.Service.CartService;
+import com.project.vinylata.Service.EmailService;
 import com.project.vinylata.Service.VoucherService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,22 +30,13 @@ public class CheckoutController {
     private UserRepository userRepository;
 
     @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private CartService cartService;
-
-    @Autowired
     private OrderRepository orderRepository;
 
     @Autowired
     private OrderItemRepository orderItemRepository;
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private VoucherService voucherService;
+    private EmailService emailService;
 
     @GetMapping("/user-info")
     public ResponseEntity<Object> checkout(){
@@ -101,6 +94,27 @@ public class CheckoutController {
             order.setUser(user.get());
         }
         orderRepository.save(order);
+
+        // Process the order and generate orderDetails string
+        StringBuilder orderItemList = new StringBuilder();
+        for (OrderItemDto orderItem: orderDto.getItemDtoList()){
+            orderItemList.append(orderItem.getName());
+            orderItemList.append(", ");
+        }
+
+        String orderDetails = "Order ID: " + order.getId() +
+                "<br/>" + "Order User: " + order.getOrderUserName() +
+                "<br/>" + "Order item list: " + orderItemList +
+                "<br/>" + "Order Payment: " + order.getTotalPrice() +
+                "<br/>" + "Order Address: " + order.getAddress() +
+                "<br/>" + "Order Date: " + order.getCreatedDate();
+        // Send email to the customer
+        try {
+            emailService.sendOrderConfirmationEmail(orderDto.getOrderUserDto().getEmail(), orderDetails);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new EmailMessageException("failed to send message!");
+        }
 
         return ResponseHandler.responseBuilder("oke", HttpStatus.OK, "order has been confirmed to process!");
     }

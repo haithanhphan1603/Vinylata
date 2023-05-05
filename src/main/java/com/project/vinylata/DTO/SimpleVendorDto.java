@@ -9,8 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SimpleCategoryDto {
-    private Long id;
-    private String categoryName;
-    private String categoryImage;
+public class SimpleVendorDto {
+    private String vendorName;
 }

@@ -50,7 +50,7 @@ public class ProductService {
         List<Category> getCategoryList = categoryRepository.findAll();
         Random random = new Random();
         List<ProductByDto> productsList = getProductList.stream().skip(random.nextInt(getProductList.size())).limit(8).map(entity -> this.modelMapper.map(entity, ProductByDto.class)).collect(Collectors.toList());
-        List<SimpleCategoryDto> categoryList = getCategoryList.stream().map(category -> this.modelMapper.map(category, SimpleCategoryDto.class)).collect(Collectors.toList());
+        List<SimpleCategoryDto> categoryList = getCategoryList.stream().limit(6).map(category -> this.modelMapper.map(category, SimpleCategoryDto.class)).collect(Collectors.toList());
         return new ShopInfoDto(categoryList, productsList);
     }
 

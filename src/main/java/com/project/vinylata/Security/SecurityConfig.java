@@ -30,9 +30,12 @@ public class SecurityConfig {
     private static final String[] USER_SECURED_URLs = {"/api/cart/**", "/logout",
             "/api/order/user/**", "/api/voucher/user/**", };
 
-    private static final String[] ADMIN_SECURED_URLs = {"/api/users/**",
-            "/logout", "/api/products/**", "/api/products/del/{productId}", "/api/products/del/{productId}", "/api/order/admin/**",
-            "/api/voucher/admin/**", "/api/categories/**", "/api/categories/update/{categoryId}", "/api/categories/del/{categoryId}", "/api/vendors/**", "/api/vendors/update/{vendorId}", "/api/vendors/del/{vendorId}"};
+    private static final String[] ADMIN_SECURED_URLs = {"/api/users/**", "/logout",
+            "/api/products/**", "/api/products/admin/del/{productId}", "/api/products/admin/add/**", "/api/products/admin/update/{productId}/**",
+            "/api/order/admin/**",
+            "/api/voucher/admin/**",
+            "/api/vendors/**", "/api/vendors/admin/update/{vendorId}", "/api/vendors/admin/add","/api/vendors/admin/del/{vendorId}",
+            "/api/categories/**", "/api/categories/admin/add", "/api/admin/categories/update/{categoryId}", "/api/admin/categories/del/{categoryId}"};
 
     @Autowired
     private JWTAuthenticationFilter authenticationFilter;

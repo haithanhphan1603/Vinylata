@@ -59,4 +59,10 @@ public class BaseExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
+    @ResponseBody
+    @ExceptionHandler(value = EmailMessageException.class)
+    public final ResponseEntity<?> handleException(EmailMessageException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
 }
