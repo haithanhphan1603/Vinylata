@@ -6,6 +6,7 @@ import com.project.vinylata.Model.User;
 import com.project.vinylata.Repository.UserRepository;
 import com.project.vinylata.Response.ResponseHandler;
 import com.project.vinylata.Service.OrderSevice;
+import jakarta.mail.MessagingException;
 import jakarta.websocket.OnClose;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
