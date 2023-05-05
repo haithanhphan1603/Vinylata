@@ -19,13 +19,9 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //private double totalMoney;
 
     @OneToOne
     private User user;
 
-    @ManyToOne
-    @Nullable
-    private Voucher voucher;
 
 }

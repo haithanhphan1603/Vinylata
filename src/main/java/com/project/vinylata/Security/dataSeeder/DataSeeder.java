@@ -50,6 +50,7 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
             admin.setLastName("Vip");
             admin.setPassword((new BCryptPasswordEncoder()).encode("123456"));
             admin.setPhoneNumber("0123456789");
+            admin.setAddress("Hanoi");
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findByName("ROLE_ADMIN"));
             roles.add(roleRepository.findByName("ROLE_USER"));
@@ -65,6 +66,7 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
             user.setFirstName("User");
             user.setLastName("NotVip");
             user.setPhoneNumber("0363828636");
+            user.setAddress("Ho Chi Minh City");
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findByName("ROLE_USER"));
             user.setRoles(roles);

@@ -25,14 +25,13 @@ public class VoucherService {
         return voucher.get();
     }
 
-    public void saveUpdate(VoucherDto voucherDto){
-        Optional<Voucher> voucherOptional = voucherRepository.findById(voucherDto.getId());
+    public void saveUpdate(VoucherDto voucherDto, long id){
+        Optional<Voucher> voucherOptional = voucherRepository.findById(id);
         if (voucherOptional.isEmpty()){
             throw new VoucherNotFoundException("this voucher not found");
         }
         Voucher voucher = voucherOptional.get();
-        voucher.setCode(voucherDto.getCode());
-        voucher.setQuantity(voucherDto.getQuantity());
+        voucher.setName(voucherDto.getName());
         voucher.setDiscount(voucherDto.getDiscount());
         voucher.setExpiratedDate(voucherDto.getExpiratedDate());
         voucherRepository.save(voucher);
@@ -45,8 +44,7 @@ public class VoucherService {
         for (Voucher voucher: voucherList){
             if (!isExpired(voucher)){
                 voucherDtoList
-                        .add(new VoucherDto(voucher.getId(), voucher.getCode(),
-                        voucher.getQuantity(), voucher.getDiscount(),
+                        .add(new VoucherDto(voucher.getId(), voucher.getName(), voucher.getDiscount(),
                         voucher.getExpiratedDate()));
             }
         }
@@ -58,8 +56,7 @@ public class VoucherService {
         List<VoucherDto> voucherDtoList = new ArrayList<>();
         for (Voucher voucher: voucherList){
                 voucherDtoList
-                        .add(new VoucherDto(voucher.getId(), voucher.getCode(),
-                                voucher.getQuantity(), voucher.getDiscount(),
+                        .add(new VoucherDto(voucher.getId(), voucher.getName(), voucher.getDiscount(),
                                 voucher.getExpiratedDate()));
         }
         return voucherDtoList;
@@ -72,8 +69,7 @@ public class VoucherService {
         for (Voucher voucher: voucherList){
             if (isExpired(voucher)){
                 voucherDtoList
-                        .add(new VoucherDto(voucher.getId(), voucher.getCode(),
-                                voucher.getQuantity(), voucher.getDiscount(),
+                        .add(new VoucherDto(voucher.getId(), voucher.getName(), voucher.getDiscount(),
                                 voucher.getExpiratedDate()));
             }
         }
@@ -86,8 +82,7 @@ public class VoucherService {
         for (Voucher voucher: voucherList){
             if (!isExpired(voucher)){
                 voucherDtoList
-                        .add(new VoucherDto(voucher.getId(), voucher.getCode(),
-                                voucher.getQuantity(), voucher.getDiscount(),
+                        .add(new VoucherDto(voucher.getId(), voucher.getName(), voucher.getDiscount(),
                                 voucher.getExpiratedDate()));
             }
         }
@@ -96,8 +91,7 @@ public class VoucherService {
 
     public void add(VoucherDto voucherDto){
         Voucher voucher = new Voucher();
-        voucher.setCode(voucherDto.getCode());
-        voucher.setQuantity(voucherDto.getQuantity());
+        voucher.setName(voucherDto.getName());
         voucher.setDiscount(voucherDto.getDiscount());
         voucher.setExpiratedDate(voucherDto.getExpiratedDate());
         voucherRepository.save(voucher);
@@ -118,21 +112,6 @@ public class VoucherService {
         return voucher.get().getDiscount();
     }
 
-    public int getQuantityById(long id){
-        Optional<Voucher> voucher = voucherRepository.findById(id);
-        if (voucherRepository.findById(id).isEmpty()){
-            return 0;
-        }
-        return voucher.get().getQuantity();
-    }
-
-    public void decreaseQuantity(long id){
-        if (getQuantityById(id) > 0){
-            Optional<Voucher> voucher = voucherRepository.findById(id);
-            voucher.get().setQuantity(voucher.get().getQuantity() - 1);
-            voucherRepository.save(voucher.get());
-        }
-    }
 
     public boolean isExpired(Voucher voucher){
        return voucher.getExpiratedDate().before(new Date());

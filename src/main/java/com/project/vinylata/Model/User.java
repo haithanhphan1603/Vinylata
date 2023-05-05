@@ -52,4 +52,6 @@ public class User {
     @JsonIgnore
     private List<Order> orders;
 
+    private String address;
+
 }

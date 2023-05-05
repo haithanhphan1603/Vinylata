@@ -1,10 +1,12 @@
 package com.project.vinylata.Controller;
 
 import com.project.vinylata.DTO.ManagedOrderDto;
+import com.project.vinylata.DTO.OrderDto;
 import com.project.vinylata.Model.User;
 import com.project.vinylata.Repository.UserRepository;
 import com.project.vinylata.Response.ResponseHandler;
 import com.project.vinylata.Service.OrderSevice;
+import jakarta.mail.MessagingException;
 import jakarta.websocket.OnClose;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,15 +30,15 @@ public class OrderController {
     @GetMapping("/api/order/admin/unconfirmed")
     public ResponseEntity<Object> getUnconfirmedOrder(){
 
-        List<ManagedOrderDto> list =orderSevice.getUnconfirmedOrder();
+        List<OrderDto> orderDtoList = orderSevice.getUnconfirmedOrder();
 
-        return ResponseHandler.responseBuilder("success", HttpStatus.OK, list);
+        return ResponseHandler.responseBuilder("success", HttpStatus.OK, orderDtoList);
     }
 
     @GetMapping("/api/order/admin/confirmed")
     public ResponseEntity<Object> getConfirmedOrder(){
-        List<ManagedOrderDto> list =orderSevice.getConfirmedOrder();
-        return ResponseHandler.responseBuilder("success", HttpStatus.OK, list);
+        List<OrderDto> orderDtoList =orderSevice.getConfirmedOrder();
+        return ResponseHandler.responseBuilder("success", HttpStatus.OK, orderDtoList);
     }
 
     @GetMapping("/api/order/user/myorder")
@@ -46,7 +48,7 @@ public class OrderController {
         if (user.isEmpty()){
             return ResponseHandler.errorResponseBuilder("bad", HttpStatus.BAD_REQUEST, "not found user!");
         }
-        List<ManagedOrderDto> list =orderSevice.getMyOrder(user.get());
+        List<OrderDto> list = orderSevice.getMyOrder(user.get());
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, list);
     }
 

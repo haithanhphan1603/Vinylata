@@ -16,9 +16,7 @@ import java.util.Date;
 public class VoucherDto {
     private long id;
 
-    private String code;
-
-    private int quantity;
+    private String name;
 
     private double discount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")

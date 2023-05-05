@@ -52,15 +52,9 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody UserDto userDto, BindingResult result) throws UserAlreadyExistsException{
         if (result.hasErrors()) {
-            return ResponseHandler.responseBuilder("failure", HttpStatus.BAD_REQUEST,userDto);
+            return ResponseHandler.responseBuilder("failure", HttpStatus.BAD_REQUEST, userDto);
         }
-
-        if (userRepository.findByEmail(userDto.getEmail()).isPresent()){
-            return ResponseHandler.errorResponseBuilder("failure", HttpStatus.BAD_REQUEST, "User Already Exists Exception");
-        }
-
         userService.add(userDto);
-
         return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, "register successfully");
     }
 
