@@ -1,13 +1,11 @@
 package com.project.vinylata.Controller;
 
-import com.project.vinylata.DTO.ManagedOrderDto;
+
 import com.project.vinylata.DTO.OrderDto;
 import com.project.vinylata.Model.User;
 import com.project.vinylata.Repository.UserRepository;
 import com.project.vinylata.Response.ResponseHandler;
 import com.project.vinylata.Service.OrderSevice;
-import jakarta.mail.MessagingException;
-import jakarta.websocket.OnClose;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:9000")
+@RequestMapping("/api/order")
 public class OrderController {
 
     @Autowired
@@ -27,7 +26,7 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/api/order/admin/unconfirmed")
+    @GetMapping("/admin/unconfirmed")
     public ResponseEntity<Object> getUnconfirmedOrder(){
 
         List<OrderDto> orderDtoList = orderSevice.getUnconfirmedOrder();
@@ -35,13 +34,13 @@ public class OrderController {
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, orderDtoList);
     }
 
-    @GetMapping("/api/order/admin/confirmed")
+    @GetMapping("/admin/confirmed")
     public ResponseEntity<Object> getConfirmedOrder(){
         List<OrderDto> orderDtoList =orderSevice.getConfirmedOrder();
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, orderDtoList);
     }
 
-    @GetMapping("/api/order/user/myorder")
+    @GetMapping("/user/myorder")
     public ResponseEntity<Object> getMyOrder(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> user = userRepository.findByEmail(username);
@@ -52,20 +51,20 @@ public class OrderController {
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, list);
     }
 
-    @PostMapping("/api/order/admin/accept/{id}")
+    @PostMapping("/admin/accept/{id}")
     public ResponseEntity<Object> acceptOrder(@PathVariable long id){
         orderSevice.acceptOrder(id);
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, "order has been confirmed");
     }
 
 
-    @PostMapping("/api/order/admin/cancel/{id}")
+    @PostMapping("/admin/cancel/{id}")
     public ResponseEntity<Object> adminCancelOrder(@PathVariable long id){
         orderSevice.cancelOrderById(id);
         return ResponseHandler.responseBuilder("success", HttpStatus.OK, "order has been canceled");
     }
 
-    @PostMapping("/api/order/user/cancel/{id}")
+    @PostMapping("/user/cancel/{id}")
     public ResponseEntity<Object> userCancelOrder(@PathVariable long id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> user = userRepository.findByEmail(username);
