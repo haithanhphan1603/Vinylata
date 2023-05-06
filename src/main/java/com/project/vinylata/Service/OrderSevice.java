@@ -135,7 +135,10 @@ public class OrderSevice {
             List<OrderItem> orderItems = order.getItemList();
             List<OrderItemDto> orderItemDtos = new ArrayList<>();
             for (OrderItem orderItem: orderItems){
-                orderItemDtos.add(new OrderItemDto(orderItem.getId(), orderItem.getImage(), orderItem.getName(), orderItem.getPrice(), orderItem.getArtist(), orderItem.getQuantity()));
+                orderItemDtos.add(new OrderItemDto(orderItem.getId(),
+                        orderItem.getName(), orderItem.getImage(),
+                        orderItem.getPrice(), orderItem.getArtist(),
+                        orderItem.getQuantity()));
             }
             orderDto.setItemDtoList(orderItemDtos);
             orderDto.setOrderStatus(order.getOrderStatus());

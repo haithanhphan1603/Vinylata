@@ -65,4 +65,10 @@ public class BaseExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
+    @ResponseBody
+    @ExceptionHandler(value = JwtAuthenticationException.class)
+    public final ResponseEntity<?> handleException(JwtAuthenticationException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
 }

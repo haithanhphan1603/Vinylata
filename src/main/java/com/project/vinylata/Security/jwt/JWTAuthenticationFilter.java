@@ -1,7 +1,9 @@
 package com.project.vinylata.Security.jwt;
 
 import com.project.vinylata.Exception.JWTNotValidateException;
+import com.project.vinylata.Exception.JwtAuthenticationException;
 import com.project.vinylata.Security.CustomUserDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,7 +30,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, JwtAuthenticationException, IOException {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String userName = null;
